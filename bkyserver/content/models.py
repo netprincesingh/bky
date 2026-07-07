@@ -31,10 +31,7 @@ class Book(models.Model):
     description = models.TextField(blank=True, null=True)
     cover_image_key = models.CharField(max_length=255, blank=True, null=True, help_text="R2 Object Key")
     
-    # Defines the structure/indexes this book uses. 
-    # e.g., {"kand": "string", "doha_number": "number", "maas_parayan_day": "number"}
-    metadata_schema = models.JSONField(default=dict, blank=True, help_text="Defines the required metadata structure for chunks in this book")
-    
+
     published_date = models.DateField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -44,10 +41,23 @@ class Book(models.Model):
 
 
 
-class Chapter(models.Model):
+class BookNode(models.Model):
+    """
+    A dynamic, hierarchical structure to represent any index format.
+    Allows structures like: Book -> Skandh -> Chapter, OR Book -> Kand -> Sarga.
+    """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='chapters')
-    title = models.CharField(max_length=255)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='nodes')
+    
+    # A node can belong to another node (null parent = top-level node)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+    
+    # Identifies the level in the hierarchy (e.g., "Skandh", "Chapter", "Kand")
+    node_type = models.CharField(max_length=50, help_text="e.g., 'Skandh', 'Chapter', 'Kand'") 
+    
+    title = models.CharField(max_length=255, blank=True, null=True)
+    
+    # Order relative to its siblings
     order = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -55,7 +65,14 @@ class Chapter(models.Model):
         ordering = ['order']
 
     def __str__(self):
-        return f"{self.book.title} - {self.title}"
+        if self.parent:
+            return f"{self.parent} > {self.node_type} {self.order}: {self.title or ''}".strip(': ')
+        return f"{self.book.title} - {self.node_type} {self.order}: {self.title or ''}".strip(': ')
+
+    @property
+    def is_leaf(self):
+        """Returns True if this node has no children."""
+        return not self.children.exists()
 
 
 
@@ -80,15 +97,12 @@ class ContentChunk(models.Model):
     This will later hold the VectorField for RAG.
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE, null=True, blank=True, related_name='chunks')
+    node = models.ForeignKey(BookNode, on_delete=models.CASCADE, null=True, blank=True, related_name='chunks', help_text="Deepest node this chunk belongs to")
     article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True, blank=True, related_name='chunks')
     chunk_text = models.TextField()
     chunk_order = models.PositiveIntegerField(default=0)
     
-    # Perfect for spiritual texts: Allows multiple simultaneous indexes
-    # e.g., {"kand": "Bala", "sarga": 1, "maas_parayan_day": 5}
-    metadata = models.JSONField(default=dict, blank=True)
-    
+
     # Placeholder for pgvector embedding:
     # from pgvector.django import VectorField
     # embedding = VectorField(dimensions=1536, blank=True, null=True) 
@@ -97,6 +111,8 @@ class ContentChunk(models.Model):
         ordering = ['chunk_order']
 
     def __str__(self):
-        if self.chapter:
-            return f"Chunk {self.chunk_order} - {self.chapter.title}"
-        return f"Chunk {self.chunk_order} - Article: {self.article.title}"
+        if self.node:
+            return f"Chunk {self.chunk_order} - {self.node.node_type} {self.node.order}"
+        if self.article:
+            return f"Chunk {self.chunk_order} - Article: {self.article.title}"
+        return f"Chunk {self.chunk_order}"
