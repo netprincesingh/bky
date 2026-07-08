@@ -1,0 +1,188 @@
+/* LoginScreen.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #4f46e5;
+  --primary-hover: #4338ca;
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --input-bg: #0f172a;
+  --input-border: #334155;
+  --input-focus: #4f46e5;
+  --error-bg: #fef2f2;
+  --error-text: #ef4444;
+  --error-border: #f87171;
+}
+
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-color);
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, hsla(225,39%,30%,0.2) 0, transparent 50%), 
+    radial-gradient(at 100% 0%, hsla(339,49%,30%,0.2) 0, transparent 50%);
+  font-family: 'Inter', sans-serif;
+  padding: 1rem;
+}
+
+.login-card {
+  background-color: var(--card-bg);
+  padding: 3rem 2.5rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  width: 100%;
+  max-width: 420px;
+  backdrop-filter: blur(10px);
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-brand {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.login-logo {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--primary-color), #ec4899);
+  border-radius: 12px;
+  box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39);
+}
+
+.login-title {
+  color: var(--text-main);
+  font-size: 1.875rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.025em;
+}
+
+.login-subtitle {
+  color: var(--text-muted);
+  text-align: center;
+  font-size: 0.95rem;
+  margin: 0 0 2rem 0;
+}
+
+.login-error {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error-text);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border-left: 4px solid var(--error-text);
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.login-input {
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-main);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.login-input::placeholder {
+  color: #475569;
+}
+
+.login-input:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.login-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.875rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2), 0 2px 4px -1px rgba(79, 70, 229, 0.1);
+}
+
+.login-button:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3), 0 4px 6px -2px rgba(79, 70, 229, 0.15);
+}
+
+.login-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.login-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
