@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Book, Users, FileText, Layers, AlignLeft, LogOut, LayoutDashboard } from 'lucide-react';
+import { Book, Users, FileText, Layers, AlignLeft, LogOut, LayoutDashboard, BookOpen } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/AuthSlice';
 import './Sidebar.css';
@@ -40,6 +40,12 @@ const Sidebar: React.FC = () => {
             <NavLink to="/books" className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}>
               <Book size={20} />
               <span>Books</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/book-content" className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}>
+              <BookOpen size={20} />
+              <span>Book Chapter View</span>
             </NavLink>
           </li>
           <li>

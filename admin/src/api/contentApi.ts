@@ -139,7 +139,7 @@ export const contentApi = api.injectEndpoints({
     }),
     deleteBookNode: builder.mutation<void, string>({
       query: (id) => ({
-        url: `/api/content/node/delete/${id}/`,
+        url: `/content/node/delete/${id}/`,
         method: "DELETE",
       }),
       invalidatesTags: ["BookNode"] as any,
@@ -147,12 +147,12 @@ export const contentApi = api.injectEndpoints({
 
     // Article Endpoints
     getArticles: builder.query<Article[], void>({
-      query: () => "/api/content/article/list/",
+      query: () => "/content/article/list/",
       providesTags: ["Article"] as any,
     }),
     createArticle: builder.mutation<Article, Partial<Article>>({
       query: (body) => ({
-        url: "/api/content/article/create/",
+        url: "/content/article/create/",
         method: "POST",
         body,
       }),
@@ -160,7 +160,7 @@ export const contentApi = api.injectEndpoints({
     }),
     updateArticle: builder.mutation<Article, { id: string; body: Partial<Article> }>({
       query: ({ id, body }) => ({
-        url: `/api/content/article/update/${id}/`,
+        url: `/content/article/update/${id}/`,
         method: "PUT",
         body,
       }),
@@ -168,7 +168,7 @@ export const contentApi = api.injectEndpoints({
     }),
     deleteArticle: builder.mutation<void, string>({
       query: (id) => ({
-        url: `/api/content/article/delete/${id}/`,
+        url: `/content/article/delete/${id}/`,
         method: "DELETE",
       }),
       invalidatesTags: ["Article"] as any,
@@ -176,12 +176,12 @@ export const contentApi = api.injectEndpoints({
 
     // Content Chunk Endpoints
     getContentChunks: builder.query<ContentChunk[], void>({
-      query: () => "/api/content/chunk/list/",
+      query: () => "/content/chunk/list/",
       providesTags: ["ContentChunk"] as any,
     }),
     createContentChunk: builder.mutation<ContentChunk, Partial<ContentChunk>>({
       query: (body) => ({
-        url: "/api/content/chunk/create/",
+        url: "/content/chunk/create/",
         method: "POST",
         body,
       }),
@@ -189,7 +189,7 @@ export const contentApi = api.injectEndpoints({
     }),
     updateContentChunk: builder.mutation<ContentChunk, { id: string; body: Partial<ContentChunk> }>({
       query: ({ id, body }) => ({
-        url: `/api/content/chunk/update/${id}/`,
+        url: `/content/chunk/update/${id}/`,
         method: "PUT",
         body,
       }),
@@ -197,7 +197,7 @@ export const contentApi = api.injectEndpoints({
     }),
     deleteContentChunk: builder.mutation<void, string>({
       query: (id) => ({
-        url: `/api/content/chunk/delete/${id}/`,
+        url: `/content/chunk/delete/${id}/`,
         method: "DELETE",
       }),
       invalidatesTags: ["ContentChunk"] as any,

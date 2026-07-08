@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import type { RootState } from './redux/store';
@@ -9,11 +10,12 @@ import './App.css';
 import DashboardScreen from './screens/home/DashboardScreen';
 import AuthorListScreen from './screens/authors/AuthorListScreen';
 import BookListScreen from './screens/books/BookListScreen';
+import BookContentView from './screens/books/BookContentView';
 import ArticleListScreen from './screens/articles/ArticleListScreen';
 import NodeListScreen from './screens/nodes/NodeListScreen';
 import ChunkListScreen from './screens/chunks/ChunkListScreen';
 
-function ProtectedRoute({ children }: { children: JSX.Element }) {
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
@@ -40,6 +42,7 @@ function App() {
           <Route index element={<DashboardScreen />} />
           <Route path="authors" element={<AuthorListScreen />} />
           <Route path="books" element={<BookListScreen />} />
+          <Route path="book-content" element={<BookContentView />} />
           <Route path="nodes" element={<NodeListScreen />} />
           <Route path="articles" element={<ArticleListScreen />} />
           <Route path="chunks" element={<ChunkListScreen />} />
