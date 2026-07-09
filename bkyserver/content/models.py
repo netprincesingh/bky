@@ -89,6 +89,14 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
+class ChunkTypeChoices(models.TextChoices):
+    VERSE = 'VERSE', 'Verse (Shloka/Mantra)'
+    TRANSLATION = 'TRANS', 'Translation'
+    EXPLANATION = 'EXPL', 'Explanation (Bhavarth/Commentary)'
+    PARAGRAPH = 'PARA', 'Paragraph'
+    FOOTNOTE = 'FOOT', 'Footnote'
+    HEADING = 'HEAD', 'Heading'
+
 
 
 class ContentChunk(models.Model):
@@ -99,8 +107,22 @@ class ContentChunk(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     node = models.ForeignKey(BookNode, on_delete=models.CASCADE, null=True, blank=True, related_name='chunks', help_text="Deepest node this chunk belongs to")
     article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True, blank=True, related_name='chunks')
+    
+    chunk_type = models.CharField(max_length=5, choices=ChunkTypeChoices.choices, default=ChunkTypeChoices.PARAGRAPH)
+    language = models.CharField(max_length=2, choices=LanguageChoices.choices, blank=True, null=True)
+    
+    is_markdown_format = models.BooleanField(default=False)
     chunk_text = models.TextField()
+    markdown_text = models.TextField(blank=True, null=True)
     chunk_order = models.PositiveIntegerField(default=0)
+    
+    # metadata can store block-level formatting and relationships. Example schemas:
+    # - Alignment: {"align": "center" | "left" | "right" | "justify"}
+    # - Spacing: {"margin_top": "20px", "margin_bottom": "30px"}
+    # - Footnote Reference: {"is_footnote_ref": true, "footnote_marker": "*", "footnote_chunk_id": "uuid"}
+    # - UI Styling: {"bg_color": "#f4f4f4", "text_color": "#d32f2f", "font_family": "SanskritFont"}
+    # - Custom Indentation: {"indent_level": 1}
+    metadata = models.JSONField(default=dict, blank=True, help_text="Store formatting like spacing, alignment, or footnote markers here.")
     
 
     # Placeholder for pgvector embedding:
