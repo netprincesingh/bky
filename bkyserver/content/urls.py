@@ -5,7 +5,7 @@ from .views import (
     BookNodeCreateView, BookNodeUpdateView, BookNodeDeleteView, BookIndexView,
     ArticleCreateView, ArticleListView, ArticleUpdateView, ArticleDeleteView,
     ContentChunkCreateView, ContentChunkListView, ContentChunkUpdateView, ContentChunkDeleteView
-    )
+)
 
 urlpatterns = [
     path('author/create/', AuthorCreateView.as_view(), name='author-create'),

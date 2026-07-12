@@ -8,7 +8,7 @@ from .models import Author, Book, BookNode, Article, ContentChunk
 from .serializers import (
     AuthorSerializer, BookSerializer, BookNodeSerializer, BookNodeTreeSerializer,
     ArticleSerializer, ContentChunkSerializer
-    )
+)
 
 
 

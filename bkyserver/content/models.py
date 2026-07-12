@@ -23,6 +23,22 @@ class Author(models.Model):
 
 
 
+class AuthorImage(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='images')
+    image_key = models.CharField(max_length=255, help_text="R2 Object Key")
+    caption = models.CharField(max_length=255, blank=True, null=True)
+    order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f"Image for {self.author.name}"
+
+
+
 class Book(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)
@@ -38,6 +54,22 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+
+
+class BookImage(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='images')
+    image_key = models.CharField(max_length=255, help_text="R2 Object Key")
+    caption = models.CharField(max_length=255, blank=True, null=True)
+    order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f"Image for {self.book.title}"
 
 
 
@@ -138,3 +170,18 @@ class ContentChunk(models.Model):
         if self.article:
             return f"Chunk {self.chunk_order} - Article: {self.article.title}"
         return f"Chunk {self.chunk_order}"
+
+
+class ContentChunkImage(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    chunk = models.ForeignKey(ContentChunk, on_delete=models.CASCADE, related_name='images')
+    image_key = models.CharField(max_length=255, help_text="R2 Object Key")
+    caption = models.CharField(max_length=255, blank=True, null=True)
+    order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f"Image for Chunk {self.chunk.id}"
