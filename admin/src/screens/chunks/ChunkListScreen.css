@@ -1,0 +1,460 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ══════════════════════════════════════════════════════════
+   CONTENT CHUNKS  ·  ChunkListScreen.css
+   ══════════════════════════════════════════════════════════ */
+
+/* ─── Page ──────────────────────────────────────────────── */
+.cks-page {
+  position: relative;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cks-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+.cks-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Header ────────────────────────────────────────────── */
+.cks-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.cks-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* ─── Page Title ────────────────────────────────────────── */
+.cks-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-shadow:
+    0 0 28px rgba(167, 139, 250, 0.5),
+    0 0 56px rgba(139, 92, 246, 0.2);
+  position: relative;
+}
+
+.cks-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 50%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(167,139,250,0.7) 0%, transparent 100%);
+  border-radius: 2px;
+}
+
+.cks-title-icon {
+  color: #a78bfa;
+  flex-shrink: 0;
+}
+
+.cks-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  color: #64748b;
+  margin: 0.2rem 0 0;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.cks-stat-node { color: #a78bfa; font-weight: 500; }
+.cks-stat-article { color: #6ee7b7; font-weight: 500; }
+.cks-stat-lone { color: #94a3b8; }
+
+/* ─── Add Chunk Button ──────────────────────────────────── */
+.cks-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.25rem;
+  background: linear-gradient(135deg, #6d28d9 0%, #7c3aed 50%, #8b5cf6 100%);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  box-shadow:
+    0 4px 20px rgba(109,40,217,0.45),
+    0 1px 3px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+  transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.cks-add-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.4s ease;
+}
+
+.cks-add-btn:hover::before { left: 100%; }
+
+.cks-add-btn:hover {
+  background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 50%, #a78bfa 100%);
+  box-shadow:
+    0 6px 28px rgba(109,40,217,0.6),
+    0 2px 8px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
+
+/* ─── Divider ───────────────────────────────────────────── */
+.cks-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(139,92,246,0.2) 0%, rgba(139,92,246,0.05) 60%, transparent 100%);
+  margin: 1.75rem 0 1.25rem;
+}
+
+/* ─── Loading ───────────────────────────────────────────── */
+.cks-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 5rem 2rem;
+  color: #64748b;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+}
+
+.cks-spinner {
+  width: 38px;
+  height: 38px;
+  border: 3px solid rgba(139,92,246,0.18);
+  border-top-color: #8b5cf6;
+  border-radius: 50%;
+  animation: cks-spin 0.75s linear infinite;
+}
+
+@keyframes cks-spin { to { transform: rotate(360deg); } }
+
+/* ─── Empty state ───────────────────────────────────────── */
+.cks-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 5rem 2rem;
+  gap: 0.85rem;
+}
+
+.cks-empty-icon {
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  background: rgba(109,40,217,0.07);
+  border: 1px solid rgba(139,92,246,0.14);
+  display: flex; align-items: center; justify-content: center;
+  color: #4c3585;
+  margin-bottom: 0.4rem;
+}
+
+.cks-empty-heading {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #475569;
+  margin: 0;
+  letter-spacing: 0.03em;
+}
+
+.cks-empty-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #334155;
+  margin: 0;
+  max-width: 380px;
+  line-height: 1.6;
+}
+
+/* ─── Masonry Grid ──────────────────────────────────────── */
+.cks-masonry {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  align-items: start;
+}
+
+/* ─── Chunk Card ────────────────────────────────────────── */
+.cks-card {
+  background: linear-gradient(145deg, rgba(22, 19, 50, 0.85) 0%, rgba(14, 12, 38, 0.95) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.cks-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(139, 92, 246, 0.35);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    0 0 16px rgba(139, 92, 246, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* ─── Card Top Bar ──────────────────────────────────────── */
+.cks-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.cks-card-top-left,
+.cks-card-top-right {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Slug Identifier */
+.cks-slug {
+  font-family: 'Fira Code', 'Courier New', Courier, monospace;
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: #94a3b8;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cks-slug-tick {
+  color: #64748b;
+  opacity: 0.6;
+}
+
+/* Association Badge */
+.cks-assoc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cks-assoc-badge.node { background: rgba(139, 92, 246, 0.15); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.25); }
+.cks-assoc-badge.article { background: rgba(16, 185, 129, 0.12); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.25); }
+.cks-assoc-badge.none { background: rgba(100, 116, 139, 0.15); color: #94a3b8; border: 1px solid rgba(100, 116, 139, 0.25); }
+
+/* Order Badge */
+.cks-order-badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #475569;
+}
+
+/* Copy Button */
+.cks-copy-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0.2rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.cks-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
+}
+
+.cks-copy-btn.copied {
+  color: #10b981;
+}
+
+/* ─── Recessed Text Box ─────────────────────────────────── */
+.cks-text-box {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  padding: 0.85rem;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2);
+  min-height: 80px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Custom scrollbar for text box */
+.cks-text-box::-webkit-scrollbar {
+  width: 4px;
+}
+.cks-text-box::-webkit-scrollbar-track {
+  background: transparent;
+}
+.cks-text-box::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.2);
+  border-radius: 4px;
+}
+.cks-text-box:hover::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.4);
+}
+
+.cks-text-content {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #cbd5e1;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* ─── Card Footer ───────────────────────────────────────── */
+.cks-card-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Character Counter */
+.cks-char-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  max-width: 120px;
+}
+
+.cks-char-bar-track {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.cks-char-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #818cf8, #a78bfa);
+  border-radius: 2px;
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+.cks-char-bar-fill.over {
+  background: #ef4444;
+}
+
+.cks-char-count {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 500;
+  color: #64748b;
+  letter-spacing: 0.02em;
+  transition: color 0.2s ease;
+}
+
+.cks-char-count.over {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* Minimalist Action Buttons */
+.cks-card-actions {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.cks-action-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cks-action-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.cks-action-btn.edit:hover {
+  color: #a5b4fc;
+  border-color: rgba(99, 102, 241, 0.3);
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.cks-action-btn.delete:hover {
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* ─── Responsive ────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .cks-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .cks-masonry {
+    grid-template-columns: 1fr;
+  }
+}
